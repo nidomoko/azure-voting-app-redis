@@ -27,6 +27,7 @@ jobs:
         uses: azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: 'AzureUSGovernment'
       - name: Set AKS context
         id: set-context
         uses: azure/aks-set-context@v3
