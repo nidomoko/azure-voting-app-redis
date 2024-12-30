@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
       - run: |
-          docker pull azure-vote-front
+          docker pull mcr.microsoft.com/azuredocs/azure-vote-front:v1
           docker build . -t ${{ secrets.registry }}/${{ secrets.repository }}:${{ github.sha }}
           docker push ${{ secrets.registry }}/${{ secrets.repository }}:${{ github.sha }}
      # - name: ACR build
