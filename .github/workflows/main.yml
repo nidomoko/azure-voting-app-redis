@@ -15,6 +15,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           environment: 'AzureUSGovernment'
+      - uses: azure/docker-login@v2
+        with:
+          login-server: ${{ secrets.LOGIN_SERVER }} # default: index.docker.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - name: ACR build
         id: build-push-acr
         uses: azure/acr-build@v1
