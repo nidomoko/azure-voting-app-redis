@@ -9,6 +9,12 @@ jobs:
     steps:
       - name: Checkout source code 
         uses: actions/checkout@v3
+      - name: Azure login
+        id: login
+        uses: azure/login@v1.4.3
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          environment: 'AzureUSGovernment'
       - name: ACR build
         id: build-push-acr
         uses: azure/acr-build@v1
@@ -22,12 +28,6 @@ jobs:
           folder: azure-vote
           branch: master
           tag: ${{ github.sha }}
-          environment: 'AzureUSGovernment'
-      - name: Azure login
-        id: login
-        uses: azure/login@v1.4.3
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
           environment: 'AzureUSGovernment'
       - name: Set AKS context
         id: set-context
