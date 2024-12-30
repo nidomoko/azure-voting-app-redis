@@ -20,20 +20,23 @@ jobs:
           login-server: ${{ secrets.LOGIN_SERVER }} # default: index.docker.io
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-      - name: ACR build
-        id: build-push-acr
-        uses: azure/acr-build@v1
-        with:
-          service_principal: ${{ secrets.service_principal }}
-          service_principal_password: ${{ secrets.service_principal_password }}
-          tenant: ${{ secrets.tenant }}
-          registry: ${{ secrets.registry }}
-          repository: ${{ secrets.repository }}
-          image:  azure-vote-front
-          folder: azure-vote
-          branch: master
-          tag: ${{ github.sha }}
-          environment: 'AzureUSGovernment'
+      - run: |
+          docker pull azure-vote-front
+          docker build . -t ${{ secrets.registry }}/${{ secrets.repository }}:${{ github.sha }}
+          docker push ${{ secrets.registry }}/${{ secrets.repository }}:${{ github.sha }}
+     # - name: ACR build
+     #   id: build-push-acr
+     #   uses: azure/acr-build@v1
+     #   with:
+     #     service_principal: ${{ secrets.service_principal }}
+     #     service_principal_password: ${{ secrets.service_principal_password }}
+     #     tenant: ${{ secrets.tenant }}
+     #     registry: ${{ secrets.registry }}
+     #     repository: ${{ secrets.repository }}
+     #     image:  azure-vote-front
+     #     folder: azure-vote
+     #     branch: master
+     #     tag: ${{ github.sha }}
       - name: Set AKS context
         id: set-context
         uses: azure/aks-set-context@v3
